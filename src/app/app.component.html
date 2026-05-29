@@ -1,0 +1,16 @@
+<header class="topbar">
+  <a class="brand" routerLink="/">🌱 Personal Garden</a>
+  <nav class="nav">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+    <a routerLink="/proyectos" routerLinkActive="active">Proyectos</a>
+    <a routerLink="/contacto" routerLinkActive="active">Contacto</a>
+  </nav>
+</header>
+
+<main class="content">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="footer">
+  <small>© 2026 Personal Garden — hecho con Angular</small>
+</footer>

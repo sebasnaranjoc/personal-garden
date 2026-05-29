@@ -1,0 +1,22 @@
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 2rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.contact-list a {
+  color: #2d6a4f;
+}
+
+.cta {
+  display: inline-block;
+  color: #2d6a4f;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.cta:hover {
+  text-decoration: underline;
+}
