@@ -1,0 +1,114 @@
+<aside class="tray">
+  <header class="tray__head">
+    <h2>Entradas</h2>
+    <button type="button" class="tray__toggle" (click)="toggleForm()">
+      {{ formOpen() ? 'Cancelar' : '+ Nueva' }}
+    </button>
+  </header>
+
+  @if (formOpen()) {
+    <form class="form" (ngSubmit)="create()">
+      <label class="form__field">
+        <span>Título</span>
+        <input name="title" [(ngModel)]="title" required autocomplete="off" />
+      </label>
+
+      <label class="form__field">
+        <span>Descripción</span>
+        <textarea name="description" [(ngModel)]="description" rows="3"></textarea>
+      </label>
+
+      <label class="form__field">
+        <span>Imagen</span>
+        <input #fileInput type="file" accept="image/*" (change)="onFile($event)" />
+      </label>
+
+      @if (imagePreview(); as src) {
+        <img class="form__preview" [src]="src" alt="" />
+      }
+
+      <button type="submit" class="form__submit">Crear entrada</button>
+    </form>
+  }
+
+  <ul class="tray__list">
+    @for (entry of tray(); track entry.id) {
+      <li
+        class="chip"
+        [class.chip--dragging]="drag()?.entry?.id === entry.id && drag()!.moved"
+        (pointerdown)="startDrag($event, entry, true)"
+        (pointermove)="moveDrag($event)"
+        (pointerup)="endDrag($event)"
+        (pointercancel)="cancelDrag()"
+      >
+        @if (entry.imageUrl) {
+          <img class="chip__thumb" [src]="entry.imageUrl" alt="" />
+        } @else {
+          <span class="chip__thumb chip__thumb--empty">🌱</span>
+        }
+        <span class="chip__title">{{ entry.title }}</span>
+      </li>
+    } @empty {
+      <li class="tray__empty">
+        Crea una entrada y arrástrala al tablero. Puedes devolverla soltándola aquí.
+      </li>
+    }
+  </ul>
+</aside>
+
+<div class="canvas" #canvas [class.canvas--active]="overCanvas()">
+  <div class="surface" #surface>
+    @for (entry of placed(); track entry.id) {
+      <article
+        class="card"
+        [style.left.px]="entry.x"
+        [style.top.px]="entry.y"
+        [style.width.px]="cardWidth"
+        [style.z-index]="entry.z"
+        [class.card--dragging]="drag()?.entry?.id === entry.id && drag()!.moved"
+        (pointerdown)="startDrag($event, entry, false)"
+        (pointermove)="moveDrag($event)"
+        (pointerup)="endDrag($event)"
+        (pointercancel)="cancelDrag()"
+      >
+        <button
+          type="button"
+          class="card__remove"
+          title="Eliminar entrada"
+          (pointerdown)="$event.stopPropagation()"
+          (click)="remove(entry.id)"
+        >
+          ×
+        </button>
+        @if (entry.imageUrl) {
+          <img class="card__image" [src]="entry.imageUrl" alt="" draggable="false" />
+        }
+        <h3 class="card__title">{{ entry.title }}</h3>
+        @if (entry.description) {
+          <p class="card__text">{{ entry.description }}</p>
+        }
+      </article>
+    } @empty {
+      <p class="surface__hint">Arrastra aquí tus entradas 👉 colócalas donde quieras</p>
+    }
+  </div>
+</div>
+
+@if (drag(); as state) {
+  @if (state.moved) {
+    <div
+      class="ghost"
+      [style.left.px]="state.pointerX - state.offsetX"
+      [style.top.px]="state.pointerY - state.offsetY"
+      [style.width.px]="cardWidth"
+    >
+      @if (state.entry.imageUrl) {
+        <img class="card__image" [src]="state.entry.imageUrl" alt="" />
+      }
+      <h3 class="card__title">{{ state.entry.title }}</h3>
+      @if (state.entry.description) {
+        <p class="card__text">{{ state.entry.description }}</p>
+      }
+    </div>
+  }
+}

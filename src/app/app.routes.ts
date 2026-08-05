@@ -7,5 +7,10 @@ export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'Inicio · Personal Garden' },
   { path: 'proyectos', component: ProjectsComponent, title: 'Proyectos · Personal Garden' },
   { path: 'contacto', component: ContactComponent, title: 'Contacto · Personal Garden' },
+  {
+    path: 'tablero',
+    title: 'Tablero · Personal Garden',
+    loadComponent: () => import('./pages/board/board.component').then((m) => m.BoardComponent),
+  },
   { path: '**', redirectTo: '' },
 ];

@@ -1,1 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  /* Roboto es la fuente pública de Google (Android, Material Design).
+     'Google Sans' va delante por si el equipo la tiene instalada; es
+     propietaria, así que en la práctica casi siempre cae en Roboto. */
+  --font-sans: 'Google Sans', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, Menlo, 'Cascadia Mono', monospace;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: inherit;
+  line-height: 1.5;
+  color: #212529;
+}
+
+/* Los controles de formulario no heredan la fuente por defecto. */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-mono);
+}

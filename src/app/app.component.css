@@ -54,6 +54,13 @@
   box-sizing: border-box;
 }
 
+.content--wide {
+  max-width: none;
+  padding: 0;
+  display: flex;
+  min-height: 0;
+}
+
 .footer {
   text-align: center;
   padding: 1rem;

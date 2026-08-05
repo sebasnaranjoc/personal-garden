@@ -3,11 +3,12 @@
   <nav class="nav">
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
     <a routerLink="/proyectos" routerLinkActive="active">Proyectos</a>
+    <a routerLink="/tablero" routerLinkActive="active">Tablero</a>
     <a routerLink="/contacto" routerLinkActive="active">Contacto</a>
   </nav>
 </header>
 
-<main class="content">
+<main class="content" [class.content--wide]="wide()">
   <router-outlet></router-outlet>
 </main>
 
