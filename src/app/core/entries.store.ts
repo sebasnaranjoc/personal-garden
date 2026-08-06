@@ -6,10 +6,20 @@ export interface Entry {
   description: string;
   /** Object URL de la imagen; vive solo mientras dure la sesión. */
   imageUrl: string | null;
-  /** Posición en la superficie del tablero. null = sigue en la bandeja. */
+  /**
+   * Posición como fracción del lienzo (0..1), no en píxeles: así las tarjetas
+   * conservan su sitio relativo cuando cambia el tamaño de la ventana.
+   * null = sigue en la bandeja.
+   */
   x: number | null;
   y: number | null;
   z: number;
+}
+
+/** Una entrada que ya está sobre el tablero: x/y garantizados. */
+export interface PlacedEntry extends Entry {
+  x: number;
+  y: number;
 }
 
 let nextId = 0;
@@ -22,9 +32,9 @@ export class EntriesStore {
   readonly tray = computed(() => this.entries().filter((e) => e.x === null));
 
   /** Entradas sobre el tablero, de abajo hacia arriba. */
-  readonly placed = computed(() =>
+  readonly placed = computed<PlacedEntry[]>(() =>
     this.entries()
-      .filter((e) => e.x !== null)
+      .filter((e): e is PlacedEntry => e.x !== null && e.y !== null)
       .sort((a, b) => a.z - b.z)
   );
 

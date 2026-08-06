@@ -15,8 +15,11 @@ export class AppComponent {
 
   private readonly router = inject(Router);
 
-  /** El tablero usa el ancho completo; el resto de páginas van centradas. */
-  readonly wide = toSignal(
+  /**
+   * El tablero trae su propio header, marquee y footer según el handoff Y2K,
+   * así que ocupa el ancho completo y reemplaza al chrome global.
+   */
+  readonly isBoard = toSignal(
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       map((event) => event.urlAfterRedirects.startsWith('/tablero'))
